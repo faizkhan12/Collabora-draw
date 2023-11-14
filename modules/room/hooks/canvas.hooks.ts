@@ -34,7 +34,7 @@ export const useDraw = (
 
   // handle end of the drawing
   const handleEndDrawing = () => {
-    if (!ctx) return;
+    if (!ctx || blocked) return;
     socket.emit("draw", moves, options);
     setDrawing(false);
     ctx.closePath();
@@ -43,11 +43,12 @@ export const useDraw = (
 
   // handle the drawing
   const handleDrawing = (x: number, y: number) => {
-    if (ctx && drawing && !blocked) {
-      moves.push([x + movedX, y + movedY]);
-      ctx.lineTo(x + movedX, y + movedY);
-      ctx.stroke();
+    if (!ctx || !drawing || blocked) {
+      return;
     }
+    moves.push([x + movedX, y + movedY]);
+    ctx.lineTo(x + movedX, y + movedY);
+    ctx.stroke();
   };
   return {
     handleStartDrawing,

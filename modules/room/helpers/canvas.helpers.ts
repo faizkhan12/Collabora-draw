@@ -26,7 +26,7 @@ export const drawOnUndo = (
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
   Object.values(users).forEach((user) => {
-    user.forEach((userMove) => {
+    user?.forEach((userMove) => {
       ctx.beginPath();
       userMove.forEach(([x, y]) => {
         ctx.lineTo(x, y);

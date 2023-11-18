@@ -17,6 +17,7 @@ export const useDraw = (
   handleEnd: () => void
 ) => {
   const users = useUsers();
+  console.log(users);
   const options = useOptions();
   const [drawing, setDrawing] = useState(false);
   const boardPosition = useBoardPosition();
@@ -116,7 +117,14 @@ export const useSocketDraw = (
         handleEnd();
         setUsers((prevUsers) => {
           const newUsers = { ...prevUsers };
-          newUsers[userId] = [...newUsers[userId], newMoves];
+          if (
+            typeof newUsers[userId] !== "object" ||
+            newUsers[userId] === null
+          ) {
+            console.log("New Users  is not iterable");
+          } else {
+            newUsers[userId] = [...newUsers[userId], newMoves];
+          }
           return newUsers;
         });
       }
@@ -126,7 +134,7 @@ export const useSocketDraw = (
 
       setUsers((prevUsers) => {
         const newUsers = { ...prevUsers };
-        newUsers[userId] = newUsers[userId].slice(0, -1);
+        newUsers[userId] = newUsers[userId]?.slice(0, -1);
 
         if (ctx) {
           drawOnUndo(ctx, savedMoves, newUsers);

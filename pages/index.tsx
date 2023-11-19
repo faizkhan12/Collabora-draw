@@ -1,8 +1,9 @@
-import { useDraw } from "@/common/hooks/use-drawing";
-import { socket } from "@/common/lib/socket";
-import Canvas from "@/modules/canvas/components/canvas";
-import { useEffect, useRef, useState } from "react";
+import Room from "@/modules/room/components/room";
 
 export default function Home() {
-  return <Canvas />;
+  return (
+    <>
+      <Room />
+    </>
+  );
 }

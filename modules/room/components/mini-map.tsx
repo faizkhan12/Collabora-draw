@@ -1,21 +1,21 @@
 /*
-  Components for minimap shown at the bottom right of the page.
+  Components for small canvas shown at the bottom right of the page.
 */
 
 import { CANVAS_SIZE } from "@/common/constants/constant";
 import { useViewport } from "@/common/hooks/use-viewport";
 import { MotionValue, useMotionValue, motion } from "framer-motion";
 import { Dispatch, SetStateAction, forwardRef, useEffect, useRef } from "react";
+import useBoardPosition from "../hooks/useBoardPosition";
 
 const MiniMap = forwardRef<
   HTMLCanvasElement,
   {
-    x: MotionValue<number>;
-    y: MotionValue<number>;
     dragging: boolean;
     setMovingMinimap: Dispatch<SetStateAction<boolean>>;
   }
->(({ x, y, dragging, setMovingMinimap }, ref) => {
+>(({ dragging, setMovingMinimap }, ref) => {
+  const { x, y } = useBoardPosition();
   const containerRef = useRef<HTMLDivElement>(null);
   const { width, height } = useViewport();
 
@@ -38,7 +38,7 @@ const MiniMap = forwardRef<
 
   return (
     <div
-      className="absolute right-10 bottom-10 z-50 bg-zinc-400"
+      className="absolute right-10 top-10 z-50 bg-zinc-400"
       ref={containerRef}
       style={{
         width: CANVAS_SIZE.width / 10,
@@ -56,6 +56,7 @@ const MiniMap = forwardRef<
         dragConstraints={containerRef}
         dragElastic={0}
         dragTransition={{ power: 0, timeConstant: 0 }}
+        onDragStart={() => setMovingMinimap((prev) => !prev)}
         onDragEnd={() => setMovingMinimap((prev: boolean) => !prev)}
         className="absolute top-0 left-0 cursor-grab border-2 border-red-500"
         style={{
@@ -65,7 +66,7 @@ const MiniMap = forwardRef<
           y: miniY,
         }}
         animate={{ x: -x.get() / 10, y: -y.get() / 10 }}
-        transition={{ duration: 0.1 }}
+        transition={{ duration: 0 }}
       ></motion.div>
     </div>
   );

@@ -14,14 +14,12 @@ export const RoomContextProvider = ({ children }: { children: ReactChild }) => {
   const usersIds = useUsersIds();
 
   useEffect(() => {
-    socket.on("users_in_room", (newUsers) => {
-      newUsers.forEach((user) => {
-        if (!usersIds.includes(user) && user !== socket.id) {
-          setUsers((prevUsers) => ({ ...prevUsers, [user]: [] }));
-        }
-      });
+    socket.on("new_user", (newUser) => {
+      setUsers((prevUsers) => ({
+        ...prevUsers,
+        [newUser]: [],
+      }));
     });
-
     socket.on("user_disconnected", (userId) => {
       setUsers((prevUsers) => {
         const newUsers = { ...prevUsers };
@@ -31,7 +29,7 @@ export const RoomContextProvider = ({ children }: { children: ReactChild }) => {
     });
 
     return () => {
-      socket.off("users_in_room");
+      socket.off("new_user");
       socket.off("user_disconnected");
     };
   }, [setUsers, usersIds]);

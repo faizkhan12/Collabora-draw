@@ -3,6 +3,7 @@ import { RoomContextProvider } from "../context/room.context";
 import Canvas from "./canvas";
 import MousePosition from "./mouse-position";
 import MouseRenderer from "./mouse-renderer";
+import ToolBar from "./tool-bar";
 
 const Room = () => {
   return (
@@ -11,6 +12,7 @@ const Room = () => {
         <Canvas />
         <MousePosition />
         <MouseRenderer />
+        <ToolBar />
       </div>
     </RoomContextProvider>
   );

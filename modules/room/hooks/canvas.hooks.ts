@@ -3,12 +3,12 @@ import { useSetRecoilState } from "recoil";
 
 import { socket } from "@/common/lib/socket";
 import { useOptions } from "@/common/recoil/options";
-import { drawOnUndo } from "../helpers/canvas.helpers";
+import { drawOnUndo, handleMove } from "../helpers/canvas.helpers";
 import usersAtom, { useUsers } from "@/common/recoil/users";
 import useBoardPosition from "./useBoardPosition";
 import { getPos } from "@/common/lib/get-pos";
 
-const savedMoves: [number, number][][] = [];
+const savedMoves: Move[] = [];
 let moves: [number, number][] = [];
 
 export const useDraw = (
@@ -17,7 +17,6 @@ export const useDraw = (
   handleEnd: () => void
 ) => {
   const users = useUsers();
-  console.log(users);
   const options = useOptions();
   const [drawing, setDrawing] = useState(false);
   const boardPosition = useBoardPosition();
@@ -69,10 +68,15 @@ export const useDraw = (
   // handle end of the drawing
   const handleEndDrawing = () => {
     if (!ctx || blocked) return;
-    setDrawing(false);
     ctx.closePath();
-    savedMoves.push(moves);
-    socket.emit("draw", moves, options);
+    setDrawing(false);
+
+    const move: Move = {
+      path: moves,
+      options,
+    };
+    savedMoves.push(move);
+    socket.emit("draw", move);
     moves = [];
     handleEnd();
   };
@@ -97,38 +101,84 @@ export const useDraw = (
 
 export const useSocketDraw = (
   ctx: CanvasRenderingContext2D | undefined,
+  drawing: boolean,
   handleEnd: () => void
 ) => {
   const setUsers = useSetRecoilState(usersAtom);
 
   useEffect(() => {
-    socket.on("user_draw", (newMoves, options, userId) => {
-      if (ctx) {
-        ctx.lineWidth = options.lineWidth;
-        ctx.strokeStyle = options.lineColor;
-        ctx.beginPath();
+    socket.emit("joined_room");
+  }, []);
 
-        newMoves.forEach(([x, y]) => {
-          ctx.lineTo(x, y);
-        });
-        ctx.stroke();
-        ctx.closePath();
-
+  // Function to have the canvas drawn when another user joined
+  useEffect(() => {
+    socket.on("room", (roomJSON) => {
+      console.log(roomJSON);
+      const rooms: Room = new Map(JSON.parse(roomJSON));
+      console.log(rooms);
+      rooms.forEach((userMoves, userId) => {
+        if (ctx) userMoves.forEach((move) => handleMove(move, ctx));
         handleEnd();
+        setUsers((prevUsers) => ({ ...prevUsers, [userId]: userMoves }));
+      });
+    });
+    return () => {
+      socket.off("room");
+    };
+  }, [ctx, handleEnd, setUsers]);
+
+  // draw part
+  useEffect(() => {
+    let moveToDrawLater: Move | undefined;
+    let userIdLater = "";
+    socket.on("user_draw", (move, userId) => {
+      if (ctx && !drawing) {
+        handleMove(move, ctx);
         setUsers((prevUsers) => {
           const newUsers = { ...prevUsers };
+          // Error handling
           if (
             typeof newUsers[userId] !== "object" ||
             newUsers[userId] === null
           ) {
             console.log("New Users  is not iterable");
           } else {
-            newUsers[userId] = [...newUsers[userId], newMoves];
+            newUsers[userId] = [...newUsers[userId], move];
           }
           return newUsers;
         });
+      } else {
+        moveToDrawLater = move;
+        userIdLater = userId;
       }
     });
+    return () => {
+      socket.off("user_draw");
+      if (moveToDrawLater && userIdLater && ctx) {
+        handleMove(moveToDrawLater, ctx);
+        handleEnd();
+        setUsers((prevUsers) => {
+          const newUsers = { ...prevUsers };
+          if (
+            typeof newUsers[userIdLater] !== "object" ||
+            newUsers[userIdLater] === null
+          ) {
+            console.log("New Users  is not iterable");
+          } else {
+            newUsers[userIdLater] = [
+              ...newUsers[userIdLater],
+              moveToDrawLater as Move,
+            ];
+          }
+
+          return newUsers;
+        });
+      }
+    };
+  }, [ctx, handleEnd, setUsers, drawing]);
+
+  // undo part
+  useEffect(() => {
     socket.on("user_undo", (userId) => {
       console.log(userId);
 
@@ -144,9 +194,7 @@ export const useSocketDraw = (
         return newUsers;
       });
     });
-
     return () => {
-      socket.off("user_draw");
       socket.off("user_undo");
     };
   }, [ctx, handleEnd, setUsers]);

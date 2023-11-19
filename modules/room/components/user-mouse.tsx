@@ -8,7 +8,7 @@ import { socket } from "@/common/lib/socket";
 interface SocketMouseProps {
   userId: string;
 }
-const SocketMouse = ({ userId }: SocketMouseProps): React.ReactElement => {
+const UserMouse = ({ userId }: SocketMouseProps): React.ReactElement => {
   const boardPos = useBoardPosition();
   const [x, setX] = useState(boardPos.x.get());
   const [y, setY] = useState(boardPos.y.get());
@@ -43,7 +43,7 @@ const SocketMouse = ({ userId }: SocketMouseProps): React.ReactElement => {
     <motion.div
       className={`absolute top-0 left-0 text-blue-800 ${
         pos.x === -1 && "hidden"
-      }`}
+      } pointer-events-none`}
       animate={{ x: pos.x + x, y: pos.y + y }}
       transition={{ duration: 0.3, ease: "linear" }}
     >
@@ -52,4 +52,4 @@ const SocketMouse = ({ userId }: SocketMouseProps): React.ReactElement => {
   );
 };
 
-export default SocketMouse;
+export default UserMouse;

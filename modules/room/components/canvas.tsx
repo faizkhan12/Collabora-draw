@@ -6,7 +6,6 @@ import { useDraw, useSocketDraw } from "../hooks/canvas.hooks";
 import { CANVAS_SIZE } from "@/common/constants/constant";
 import { useViewport } from "@/common/hooks/use-viewport";
 import MiniMap from "./mini-map";
-import useBoardPosition from "../hooks/useBoardPosition";
 
 const Canvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -49,7 +48,7 @@ const Canvas = () => {
     handleEndDrawing,
     handleDrawing,
     handleUndo,
-    // drawing,
+    drawing,
   } = useDraw(ctx, dragging, copyCanvasToSmall);
 
   useEffect(() => {
@@ -68,7 +67,7 @@ const Canvas = () => {
     };
   }, [dragging]);
 
-  useSocketDraw(ctx, copyCanvasToSmall);
+  useSocketDraw(ctx, drawing, copyCanvasToSmall);
 
   return (
     <div className="relative h-full w-full overflow-hidden">

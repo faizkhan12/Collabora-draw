@@ -1,7 +1,9 @@
-import Room from "@/modules/room/components/room";
-import RoomPage from "./[roomId]";
-import HomePage from "@/modules/home-page/home-page";
+import type { NextPage } from "next";
 
-export default function Home() {
-  return <HomePage />;
-}
+import Home from "@/modules/home/components/Home";
+
+const HomePage: NextPage = () => {
+  return <Home />;
+};
+
+export default HomePage;

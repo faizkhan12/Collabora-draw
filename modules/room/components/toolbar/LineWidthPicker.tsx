@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { BsBorderWidth } from "react-icons/bs";
+import { BsBorder } from "react-icons/bs";
 import { useClickAway } from "react-use";
 
 import { useOptions } from "@/common/recoil/options";
@@ -24,12 +24,12 @@ const LineWidthPicker = () => {
         onClick={() => setOpened(!opened)}
         disabled={options.mode === "select"}
       >
-        <BsBorderWidth />
+        <BsBorder />
       </button>
       <AnimatePresence>
         {opened && (
           <motion.div
-            className="absolute top-[6px] left-14 w-36"
+            className="absolute left-14 top-[6px] w-36"
             variants={EntryAnimation}
             initial="from"
             animate="to"

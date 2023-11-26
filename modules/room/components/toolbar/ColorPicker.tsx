@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { RgbaColorPicker } from "react-colorful";
-import { BsPaletteFill } from "react-icons/bs";
+import { BsPaintBucket } from "react-icons/bs";
 import { useClickAway } from "react-use";
 
 import { useOptions } from "@/common/recoil/options/options.hooks";
@@ -25,12 +25,12 @@ const ColorPicker = () => {
         onClick={() => setOpened(!opened)}
         disabled={options.mode === "select"}
       >
-        <BsPaletteFill />
+        <BsPaintBucket />
       </button>
       <AnimatePresence>
         {opened && (
           <motion.div
-            className="absolute left-10 mt-24 sm:left-14"
+            className="absolute left-10 mt-24 sm:left-14 sm:top-[50%]"
             variants={EntryAnimation}
             initial="from"
             animate="to"

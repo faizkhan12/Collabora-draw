@@ -21,23 +21,23 @@ const Background = ({ bgRef }: { bgRef: RefObject<HTMLCanvasElement> }) => {
       document.body.style.backgroundColor =
         bg.mode === "dark" ? "#222" : "#fff";
 
-      if (bg.lines) {
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = bg.mode === "dark" ? "#444" : "#ddd";
-        for (let i = 0; i < CANVAS_SIZE.height; i += 25) {
-          ctx.beginPath();
-          ctx.moveTo(0, i);
-          ctx.lineTo(ctx.canvas.width, i);
-          ctx.stroke();
-        }
+      // if (bg.lines) {
+      //   ctx.lineWidth = 1;
+      //   ctx.strokeStyle = bg.mode === "dark" ? "#444" : "#ddd";
+      //   for (let i = 0; i < CANVAS_SIZE.height; i += 25) {
+      //     ctx.beginPath();
+      //     ctx.moveTo(0, i);
+      //     ctx.lineTo(ctx.canvas.width, i);
+      //     ctx.stroke();
+      //   }
 
-        for (let i = 0; i < CANVAS_SIZE.width; i += 25) {
-          ctx.beginPath();
-          ctx.moveTo(i, 0);
-          ctx.lineTo(i, ctx.canvas.height);
-          ctx.stroke();
-        }
-      }
+      //   for (let i = 0; i < CANVAS_SIZE.width; i += 25) {
+      //     ctx.beginPath();
+      //     ctx.moveTo(i, 0);
+      //     ctx.lineTo(i, ctx.canvas.height);
+      //     ctx.stroke();
+      //   }
+      // }
     }
   }, [bgRef, bg]);
 

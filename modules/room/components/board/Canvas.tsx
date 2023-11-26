@@ -15,12 +15,17 @@ import { useRefs } from "../../hooks/useRefs";
 import { useSocketDraw } from "../../hooks/useSocketDraw";
 import Background from "./Background";
 import MiniMap from "./Minimap";
+import NotFoundModal from "@/modules/home/modals/NotFound";
+import { useModal } from "@/common/recoil/modal";
+import InstructionModal from "@/modules/home/modals/instruction";
 
 const Canvas = () => {
   const { canvasRef, bgRef, undoRef, redoRef } = useRefs();
   const { width, height } = useViewportSize();
   const { x, y } = useBoardPosition();
   const ctx = useCtx();
+  const { openModal } = useModal();
+  const [count, setCount] = useState(1);
 
   const [dragging, setDragging] = useState(true);
 
@@ -66,6 +71,17 @@ const Canvas = () => {
     if (ctx) socket.emit("joined_room");
   }, [ctx]);
 
+  useEffect(() => {
+    if (count === 1) {
+      openModal(<InstructionModal />);
+      setCount(count + 1);
+    }
+  }, [openModal, count]);
+
+  const onClickInstruction = () => {
+    openModal(<InstructionModal />);
+  };
+
   return (
     <div className="relative h-full w-full overflow-hidden">
       <motion.canvas
@@ -106,8 +122,14 @@ const Canvas = () => {
 
       <MiniMap dragging={dragging} />
       <button
-        className={`absolute bottom-14 right-5 z-10 rounded-xl md:bottom-5 ${
-          dragging ? "bg-green-500" : "bg-zinc-300 text-black"
+        onClick={onClickInstruction}
+        className="btn absolute left-10 top-10 z-30 overflow-hidden rounded-lg shadow-lg"
+      >
+        Click to see the instruction
+      </button>
+      <button
+        className={`absolute right-5 top-14 z-10 rounded-xl md:top-5 ${
+          dragging ? "bg-red-500" : "bg-zinc-300 text-black"
         } p-3 text-lg text-white`}
         onClick={() => setDragging((prev) => !prev)}
       >

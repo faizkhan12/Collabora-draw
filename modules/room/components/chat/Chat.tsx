@@ -52,7 +52,7 @@ const Chat = () => {
       transition={{ ease: DEFAULT_EASE, duration: 0.2 }}
     >
       <button
-        className="flex w-full cursor-pointer items-center justify-between bg-zinc-900 py-2 px-10 font-semibold text-white"
+        className="flex w-full cursor-pointer items-center justify-between bg-[#8b3dff] px-10 py-2 font-semibold text-white"
         onClick={() => {
           setOpened((prev) => !prev);
           setNewMsg(false);

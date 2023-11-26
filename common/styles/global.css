@@ -12,11 +12,11 @@
   }
 
   .btn {
-    @apply rounded-xl bg-black p-5 py-1 text-white transition-all hover:scale-105 active:scale-100;
+    @apply rounded-lg bg-[#8b3dff] p-5 py-2 text-white transition-all hover:scale-105 active:scale-100;
   }
 
   .input {
-    @apply rounded-xl border p-5 py-1;
+    @apply w-[100%] rounded-xl border p-5;
   }
 
   .overflow-overlay {
@@ -33,6 +33,7 @@ body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
   overscroll-behavior: contain;
+  background: #fbf7ef !important;
   cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" style="transform: rotate(-90deg); stroke: white; stroke-width: 1px;" version="1.1" width="16" height="16"><path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z"></path></svg>'),
     auto;
 }

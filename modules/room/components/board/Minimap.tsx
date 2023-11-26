@@ -64,7 +64,7 @@ const MiniMap = ({ dragging }: { dragging: boolean }) => {
 
   return (
     <div
-      className="absolute right-10 top-10 z-30 overflow-hidden rounded-lg shadow-lg"
+      className="absolute bottom-10 right-10 z-30 overflow-hidden rounded-lg shadow-lg"
       style={{
         width: CANVAS_SIZE.width / divider,
         height: CANVAS_SIZE.height / divider,
@@ -84,7 +84,7 @@ const MiniMap = ({ dragging }: { dragging: boolean }) => {
         dragTransition={{ power: 0, timeConstant: 0 }}
         onDragStart={() => setDraggingMinimap(true)}
         onDragEnd={() => setDraggingMinimap(false)}
-        className="absolute top-0 left-0 cursor-grab rounded-lg border-2 border-red-500"
+        className="absolute left-0 top-0 cursor-grab rounded-lg border-2 border-[#8b3dff]"
         style={{
           width: width / divider,
           height: height / divider,

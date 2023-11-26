@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BiRectangle } from "react-icons/bi";
 import { BsCircle } from "react-icons/bs";
-import { CgShapeZigzag } from "react-icons/cg";
+import { CgShapeZigzag, CgPen } from "react-icons/cg";
 import { useClickAway } from "react-use";
 
 import { useOptions } from "@/common/recoil/options";
@@ -30,6 +30,9 @@ const ShapeSelector = () => {
 
   return (
     <div className="relative flex items-center" ref={ref}>
+      <div className="absolute left-10 rounded-md bg-gray-800 p-2 text-white opacity-0">
+        Choose Shape
+      </div>
       <button
         className="btn-icon text-2xl"
         disabled={options.mode === "select"}
@@ -37,7 +40,7 @@ const ShapeSelector = () => {
       >
         {options.shape === "circle" && <BsCircle />}
         {options.shape === "rect" && <BiRectangle />}
-        {options.shape === "line" && <CgShapeZigzag />}
+        {options.shape === "line" && <CgPen />}
       </button>
 
       <AnimatePresence>
@@ -53,7 +56,7 @@ const ShapeSelector = () => {
               className="btn-icon text-2xl"
               onClick={() => handleShapeChange("line")}
             >
-              <CgShapeZigzag />
+              <CgPen />
             </button>
 
             <button

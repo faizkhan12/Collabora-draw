@@ -123,7 +123,7 @@ const Canvas = () => {
       <MiniMap dragging={dragging} />
       <button
         onClick={onClickInstruction}
-        className="btn absolute left-10 top-10 z-30 overflow-hidden rounded-lg shadow-lg"
+        className="btn absolute bottom-0 right-0 z-30  overflow-hidden rounded-lg shadow-lg xl:w-[400px]"
       >
         Click to see the instruction
       </button>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
 import { BsArrowsMove } from "react-icons/bs";
+import { FaHireAHelper } from "react-icons/fa";
 
 import { CANVAS_SIZE } from "@/common/constants/canvasSize";
 import { useViewportSize } from "@/common/hooks/useViewportSize";
@@ -123,9 +124,9 @@ const Canvas = () => {
       <MiniMap dragging={dragging} />
       <button
         onClick={onClickInstruction}
-        className="btn absolute bottom-0 right-0 z-30  overflow-hidden rounded-lg shadow-lg xl:w-[400px]"
+        className="btn absolute bottom-0 left-2 z-30 overflow-hidden rounded-lg shadow-lg "
       >
-        Click to see the instruction
+        <FaHireAHelper className="h-[20px] w-[20px]" />
       </button>
       <button
         className={`absolute right-5 top-14 z-10 rounded-xl md:top-5 ${

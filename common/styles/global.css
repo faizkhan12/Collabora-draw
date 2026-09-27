@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-  @apply font-montserrat font-medium focus:outline-none focus:ring focus:ring-red-500;
+  @apply font-montserrat font-medium focus:outline-none;
 }
 
 @layer components {
@@ -12,7 +12,7 @@
   }
 
   .btn {
-    @apply rounded-lg bg-[#8b3dff] p-5 py-2 text-white transition-all hover:scale-105 active:scale-100;
+    @apply rounded-lg bg-[#e9d5ff] p-5 py-2 text-[#c084fc] transition-all hover:scale-105 active:scale-100;
   }
 
   .input {

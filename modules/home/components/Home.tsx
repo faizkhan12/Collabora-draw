@@ -114,7 +114,7 @@ const Home = () => {
           <div className="h-px w-full bg-zinc-200" />
         </div>
 
-        <form onSubmit={handleJoinRoom}>
+        <form className="w-[720px]" onSubmit={handleJoinRoom}>
           <label htmlFor="room-id" className=" font-bold leading-tight">
             Enter room id you want to join
           </label>
